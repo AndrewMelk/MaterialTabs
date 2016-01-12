@@ -17,27 +17,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AlphabetIndexer;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.Toast;
 
 import info.androidhive.materialtabs.R;
 
+import static android.provider.ContactsContract.*;
+
 public class OneFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
 private OnContactSelectedListener mContactsListener;
 private SimpleCursorAdapter mAdapter;
-    public SimpleCursorAdapter nAdapter;
+
+
 
 private String mCurrentFilter = null;
 
 private static final String[] CONTACTS_SUMMARY_PROJECTION = new String[] {
-        ContactsContract.Contacts._ID,
-        ContactsContract.Contacts.DISPLAY_NAME,
-        ContactsContract.Contacts.HAS_PHONE_NUMBER,
-        ContactsContract.Contacts.LOOKUP_KEY
+        Contacts._ID,
+        Contacts.DISPLAY_NAME,
+        Contacts.HAS_PHONE_NUMBER,
+        Contacts.LOOKUP_KEY
         };
+
 
 
 
@@ -54,6 +59,10 @@ public void onActivityCreated(Bundle savedInstanceState) {
 
         getLoaderManager().initLoader(0, null, this);
 
+
+
+
+
         mAdapter = new IndexedListAdapter(
         this.getActivity(),
         R.layout.contact_list_item,
@@ -63,13 +72,10 @@ public void onActivityCreated(Bundle savedInstanceState) {
 
         setListAdapter(mAdapter);
 
-//            nAdapter = new IndexedListAdapter(
-//            this.getActivity(),
-//            R.layout.contact_list_item,
-//            null,
-//            new String[] {ContactsContract.CommonDataKinds.Phone.NUMBER},
-//            new int[] {R.id.display_number});
-//        setListAdapter(nAdapter);
+
+
+
+
 
         // Включить или отключить быстрый скролл с алфавитом!!!!!
         getListView().setFastScrollEnabled(true);
@@ -82,18 +88,18 @@ public void onListItemClick(ListView l, View v, int position, long id) {
         String phoneNumber = null;
         String name = null;
 
-        String[] projection = new String[] {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
+        String[] projection = new String[] {CommonDataKinds.Phone.DISPLAY_NAME, CommonDataKinds.Phone.NUMBER};
 final Cursor phoneCursor = getActivity().getContentResolver().query(
-        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        CommonDataKinds.Phone.CONTENT_URI,
         projection,
-        ContactsContract.Data.CONTACT_ID + "=?",
+        Data.CONTACT_ID + "=?",
         new String[]{String.valueOf(id)},
         null);
 
         if(phoneCursor.moveToFirst() && phoneCursor.isLast()) {
-final int contactNumberColumnIndex 	= phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+final int contactNumberColumnIndex 	= phoneCursor.getColumnIndex(CommonDataKinds.Phone.NUMBER);
         phoneNumber = phoneCursor.getString(contactNumberColumnIndex);
-        name = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+        name = phoneCursor.getString(phoneCursor.getColumnIndex(CommonDataKinds.Phone.DISPLAY_NAME));
         }
 
         if (phoneNumber != null){
@@ -120,17 +126,17 @@ public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
         Uri baseUri;
 
         if (mCurrentFilter != null) {
-        baseUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI,
+        baseUri = Uri.withAppendedPath(Contacts.CONTENT_FILTER_URI,
         Uri.encode(mCurrentFilter));
         } else {
-        baseUri = ContactsContract.Contacts.CONTENT_URI;
+        baseUri = Contacts.CONTENT_URI;
         }
 
-        String selection = "((" + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
-        + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
-        + ContactsContract.Contacts.DISPLAY_NAME + " != '' ))";
+        String selection = "((" + Contacts.DISPLAY_NAME + " NOTNULL) AND ("
+        + Contacts.HAS_PHONE_NUMBER + "=1) AND ("
+        + Contacts.DISPLAY_NAME + " != '' ))";
 
-        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
+        String sortOrder = Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
 
         return new CursorLoader(getActivity(), baseUri, CONTACTS_SUMMARY_PROJECTION, selection, null, sortOrder);
         }
@@ -161,9 +167,9 @@ public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     public Cursor swapCursor(Cursor c) {
         if (c != null) {
             alphaIndexer = new AlphabetIndexer(c,
-                    c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME),
+                    c.getColumnIndex(Contacts.DISPLAY_NAME),
                     " ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ");
-            c.getColumnIndex(ContactsContract.Contacts.PHOTO_ID);
+            c.getColumnIndex(Contacts.PHOTO_ID);
 
         }
 

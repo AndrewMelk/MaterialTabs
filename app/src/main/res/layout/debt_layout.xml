@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
+        android:title="@string/create_debt"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -39,8 +40,10 @@
 
     <EditText
             android:id="@+id/edit_money"
-            android:layout_width="30dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
         />
 
         <Button

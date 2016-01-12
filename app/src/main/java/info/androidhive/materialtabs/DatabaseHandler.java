@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,10 +28,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_DEBT = "debt";
 
     // Contacts Table Columns names
-    private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_PH_NO = "phone_number";
-    private static final String DEBT_Q = "debt_quality";
+     private static final String KEY_ID = "id";
+     private static final String KEY_NAME = "name";
+     private static final String KEY_PH_NO = "phone_number";
+     private static final String DEBT_Q = "debt_quality";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,14 +73,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // 3. insert
         db.insert(TABLE_DEBT, // table
-                  null, //nullColumnHack
-                  values); // key/value -> keys = column names/ values = column values
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
 
         // 4. close
         db.close();
     }
 
+
+
     public List<Debt> getAllBooks() {
+
         List<Debt> debts = new LinkedList<Debt>();
 
         // 1. build the query
@@ -99,6 +104,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 debt.setMoney(cursor.getString(3));
                 // Add book to books
                 debts.add(debt);
+
+
             } while (cursor.moveToNext());
         }
 

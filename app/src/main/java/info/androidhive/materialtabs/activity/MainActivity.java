@@ -69,9 +69,9 @@ Cursor c1;
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new OneFragment(), "ONE");
-        adapter.addFrag(new TwoFragment(), "TWO");
-        adapter.addFrag(new ThreeFragment(), "THREE");
+        adapter.addFrag(new OneFragment(), "Contacts");
+        adapter.addFrag(new TwoFragment(), "Debts");
+        adapter.addFrag(new ThreeFragment(), "Create group debt");
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1);
     }
