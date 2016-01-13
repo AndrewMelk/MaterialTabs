@@ -3,9 +3,7 @@ package info.androidhive.materialtabs;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by HP on 25.11.2015.
- */
+
 public class Debt implements Parcelable {
     int id;
      String name;
@@ -16,7 +14,7 @@ public class Debt implements Parcelable {
     }
 
     public Debt(String name, String number, String money) {
-
+//        this.id = id;
         this.name = name;
         this.number = number;
         this.money = money;

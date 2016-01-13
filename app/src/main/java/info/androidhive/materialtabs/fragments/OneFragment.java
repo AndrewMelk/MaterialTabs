@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.Toast;
 
+import info.androidhive.materialtabs.IndexedListAdapter;
 import info.androidhive.materialtabs.R;
 
 import static android.provider.ContactsContract.*;
@@ -30,7 +31,7 @@ public class OneFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
 private OnContactSelectedListener mContactsListener;
-private SimpleCursorAdapter mAdapter;
+private IndexedListAdapter mAdapter;
 
 
 
@@ -154,44 +155,44 @@ public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 
 
 
-    class IndexedListAdapter extends SimpleCursorAdapter implements SectionIndexer {
+//    class IndexedListAdapter extends SimpleCursorAdapter implements SectionIndexer {
+//
+//    AlphabetIndexer alphaIndexer;
+//
+//    public IndexedListAdapter(Context context, int layout, Cursor c,
+//                              String[] from, int[] to) {
+//        super(context, layout, c, from, to, 0);
+//    }
+//
+//    @Override
+//    public Cursor swapCursor(Cursor c) {
+//        if (c != null) {
+//            alphaIndexer = new AlphabetIndexer(c,
+//                    c.getColumnIndex(Contacts.DISPLAY_NAME),
+//                    " ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ");
+//            c.getColumnIndex(Contacts.PHOTO_ID);
+//
+//        }
+//
+//        return super.swapCursor(c);
+//    }
+//
+//    @Override
+//    public int getPositionForSection(int section) {
+//        return alphaIndexer.getPositionForSection(section);
+//    }
+//
+//    @Override
+//    public int getSectionForPosition(int position) {
+//        return alphaIndexer.getSectionForPosition(position);
+//    }
+//
+//    @Override
+//    public Object[] getSections() {
+//        return alphaIndexer == null ? null : alphaIndexer.getSections();
+//    }
 
-    AlphabetIndexer alphaIndexer;
-
-    public IndexedListAdapter(Context context, int layout, Cursor c,
-                              String[] from, int[] to) {
-        super(context, layout, c, from, to, 0);
-    }
-
-    @Override
-    public Cursor swapCursor(Cursor c) {
-        if (c != null) {
-            alphaIndexer = new AlphabetIndexer(c,
-                    c.getColumnIndex(Contacts.DISPLAY_NAME),
-                    " ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ");
-            c.getColumnIndex(Contacts.PHOTO_ID);
-
-        }
-
-        return super.swapCursor(c);
-    }
-
-    @Override
-    public int getPositionForSection(int section) {
-        return alphaIndexer.getPositionForSection(section);
-    }
-
-    @Override
-    public int getSectionForPosition(int position) {
-        return alphaIndexer.getSectionForPosition(position);
-    }
-
-    @Override
-    public Object[] getSections() {
-        return alphaIndexer == null ? null : alphaIndexer.getSections();
-    }
-
-}
+//}
 
 
 

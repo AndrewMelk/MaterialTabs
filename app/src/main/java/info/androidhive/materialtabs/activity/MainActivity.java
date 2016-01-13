@@ -15,6 +15,7 @@ import android.widget.Toast;
 import info.androidhive.materialtabs.Constants;
 import info.androidhive.materialtabs.DatabaseHandler;
 import info.androidhive.materialtabs.Debt;
+import info.androidhive.materialtabs.DebtsDbAdapter;
 import info.androidhive.materialtabs.R;
 import info.androidhive.materialtabs.fragments.OnContactSelectedListener;
 import info.androidhive.materialtabs.fragments.OneFragment;
@@ -26,10 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
                           implements OnContactSelectedListener {
-
-    String debtName;
-    String debtNumber;
-    String debtQuality;
+ private DebtsDbAdapter debtsDbAdapter;
 
 //    public static final String SELECTED_CONTACT_ID 	= "contact_id";
 //    public static final String KEY_PHONE_NUMBER 	= "phone_number";
@@ -136,19 +134,18 @@ Cursor c1;
                         Toast.makeText(MainActivity.this,data.getExtras().getParcelable(Constants.NEW_DEBT).toString() ,Toast.LENGTH_SHORT).show();
 
                         Debt recieveDebt = data.getExtras().getParcelable(Constants.NEW_DEBT);
-                        DatabaseHandler db = new DatabaseHandler(this);
-                        Log.d("myLogs", "Добавляем в базу");
-                        db.addDebt(recieveDebt);
-                        Log.d("DB LOGS", db.getAllBooks().toString());
-//                        Toast.makeText(MainActivity.this,db.getAllBooks().toString(),Toast.LENGTH_LONG).show();
-//                        actionBar.setSelectedNavigationItem(1);
+                        Log.d("Get DEBT in MAin", recieveDebt.toString());
+//                        debtsDbAdapter.createCountry(recieveDebt.getName(), recieveDebt.getNumber(), recieveDebt.getMoney());
+
+//                        DatabaseHandler db = new DatabaseHandler(this);
+//                        Log.d("myLogs", "Добавляем в базу");
+//                        db.addDebt(recieveDebt);
+//                        Log.d("DB LOGS", debtsDbAdapter.fetchAllDebts().toString());
+//
+
+
+
                         viewPager.setCurrentItem(1);
-
-
-//                        debtName = getIntent().getExtras().getString(Constants.CONTACT_NAME_KEY);
-//                        debtNumber = getIntent().getExtras().getString(Constants.CONTACT_NUMBER_KEY);
-//                        debtQuality = getIntent().getExtras().getString(Constants.CONTACT_QUALITY);
-
 
 
                     }
