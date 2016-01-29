@@ -39,6 +39,7 @@ private Cursor cursor;
 //    public static final String SELECTED_CONTACT_ID 	= "contact_id";
 //    public static final String KEY_PHONE_NUMBER 	= "phone_number";
 //    public static final String KEY_CONTACT_NAME 	= "contact_name";
+    private ParseObject parseObject;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -56,6 +57,7 @@ private Cursor cursor;
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
+
 
 //        ParseObject testObject = new ParseObject("TestObject");
 //        testObject.put("foo", "bar");
@@ -162,6 +164,12 @@ private Cursor cursor;
                         Debt recieveDebt = data.getExtras().getParcelable(Constants.NEW_DEBT);
                         Log.d("Get DEBT in MAin", recieveDebt.toString());
                         DebtsDbAdapter db = new DebtsDbAdapter(this);
+                        parseObject = new ParseObject("Debt");
+                        parseObject.put("Name",recieveDebt.getName());
+                        parseObject.put("Number",recieveDebt.getNumber());
+                        parseObject.put("Money",recieveDebt.getMoney());
+                        parseObject.put("Currency",recieveDebt.getCurrency());
+                        parseObject.saveInBackground();
 
 //                        if(db.fetchDebtByNumber(recieveDebt.getNumber()).){
 //
