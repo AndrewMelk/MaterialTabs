@@ -1,30 +1,25 @@
 package info.androidhive.materialtabs.fragments;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
-
-import java.util.List;
 
 import info.androidhive.materialtabs.DatabaseHandler;
-import info.androidhive.materialtabs.Debt;
 import info.androidhive.materialtabs.DebtsDbAdapter;
 import info.androidhive.materialtabs.IndexedListAdapter;
 import info.androidhive.materialtabs.R;
 
 
-public class TwoFragment extends Fragment{
+public class TwoFragment extends ListFragment {
 
     ListView mList;
-
+    private LayoutInflater mLayoutInflater;
 
 //    DatabaseHandler sqlHelper;
     SQLiteDatabase db;
@@ -34,7 +29,7 @@ public class TwoFragment extends Fragment{
     private DebtsDbAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
     private IndexedListAdapter ILAdapter;
-
+    private DatabaseHandler dbHandler;
     public TwoFragment() {
         // Required empty public constructor
     }
@@ -46,10 +41,10 @@ public class TwoFragment extends Fragment{
         dbHelper = new DebtsDbAdapter(this.getActivity());
         dbHelper.open();
         //Clean all data
-        dbHelper.deleteAllCountries();
+        dbHelper.clearDB();
         //Add some data
-        dbHelper.insertSomeCountries();
-
+//        dbHelper.insertSomeCountries();
+        displayListView();
 
     }
 
@@ -58,10 +53,10 @@ public class TwoFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_two, null);
-        mList = (ListView) v.findViewById(R.id.debts_listView);
-        displayListView(mList);
+//        View v = inflater.inflate(R.layout.fragment_two, null);
 
+
+        displayListView();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_two, container, false);
 
@@ -71,6 +66,7 @@ public class TwoFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        displayListView();
 
 
     }
@@ -78,37 +74,12 @@ public class TwoFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-
+        displayListView();
 
     }
 
-//    public void initData(){
-//
-//        db = sqlHelper.getReadableDatabase();
-//        List<Debt> debtList = sqlHelper.getAllBooks();
-//        userCursor = db.rawQuery("select * from " + DatabaseHandler.TABLE_DEBT, null);
-//        if(debtList.isEmpty()){
-//
-//            Toast.makeText(getActivity(),"DataBase is Empty",Toast.LENGTH_LONG).show();
-//
-//
-//        }else {
-//
-//            Toast.makeText(getActivity(),sqlHelper.getAllBooks().toString(),Toast.LENGTH_LONG).show();
-//
-//
-//                String[] headers = new String[]{DatabaseHandler.KEY_NAME,DatabaseHandler.KEY_PH_NO,DatabaseHandler.DEBT_Q};
-//                int[] to = new int[]{R.id.debt_display_name, R.id.display_number, R.id.debt_display};
-//            dataAdapter = new SimpleCursorAdapter(this.getActivity(), R.layout.fragment_two,
-//                        userCursor, headers, to, 0);
-//                mList.setAdapter(dataAdapter);
-//
-//
-//        }
-//
-//    }
 
-    private void displayListView(ListView v){
+    private void displayListView(){
 
 
         Cursor cursor = dbHelper.fetchAllDebts();
@@ -118,6 +89,7 @@ public class TwoFragment extends Fragment{
                 DebtsDbAdapter.KEY_NAME,
                 DebtsDbAdapter.KEY_PH_NO,
                 DebtsDbAdapter.KEY_DEBT,
+                DebtsDbAdapter.KEY_CURRENCY
 
         };
 
@@ -126,19 +98,22 @@ public class TwoFragment extends Fragment{
                 R.id.debt_display_name,
                 R.id.debt_display_number,
                 R.id.debt_display,
+                R.id.debt_currency
         };
 
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
-        ILAdapter = new IndexedListAdapter(
+        dataAdapter = new SimpleCursorAdapter(
                 this.getActivity(), R.layout.debts_list_item,
                 cursor,
                 columns,
-                to);
-
+                to,0);
+//
         // Assign adapter to ListView
-        v.setAdapter(dataAdapter);
+        setListAdapter(dataAdapter);
     }
+
+
 
 
 
@@ -146,8 +121,8 @@ public class TwoFragment extends Fragment{
     public void onDestroy(){
         super.onDestroy();
         // Закрываем подключения
-        db.close();
-        userCursor.close();
+//        db.close();
+//        userCursor.close();
     }
 
 

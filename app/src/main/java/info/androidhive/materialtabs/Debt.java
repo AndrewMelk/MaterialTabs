@@ -9,15 +9,21 @@ public class Debt implements Parcelable {
      String name;
      String number;
      String money;
+    String currency;
+
+
 
     public Debt() {
     }
 
-    public Debt(String name, String number, String money) {
+    public Debt(String name, String number, String money, String currency) {
 //        this.id = id;
         this.name = name;
         this.number = number;
         this.money = money;
+        this.currency = currency;
+
+
     }
 
     @Override
@@ -27,14 +33,18 @@ public class Debt implements Parcelable {
                 ", name='" + name + '\'' +
                 ", number='" + number + '\'' +
                 ", money='" + money + '\'' +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 
     protected Debt(Parcel in) {
+
         id = in.readInt();
         name = in.readString();
         number = in.readString();
         money = in.readString();
+        currency = in.readString();
+
     }
 
     public static final Creator<Debt> CREATOR = new Creator<Debt>() {
@@ -81,6 +91,13 @@ public class Debt implements Parcelable {
         this.money = money;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     @Override
     public int describeContents() {
@@ -93,6 +110,7 @@ public class Debt implements Parcelable {
         dest.writeString(name);
         dest.writeString(number);
         dest.writeString(money);
+        dest.writeString(currency);
     }
 }
 

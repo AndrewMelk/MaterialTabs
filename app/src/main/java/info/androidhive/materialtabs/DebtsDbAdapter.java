@@ -17,6 +17,8 @@ public class DebtsDbAdapter {
     public static final String KEY_NAME = "name";
     public static final String KEY_PH_NO = "number";
     public static final String KEY_DEBT = "debt";
+    public static final String KEY_CURRENCY = "currency";
+
 
     private static final String TAG = "DebtsDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -24,7 +26,7 @@ public class DebtsDbAdapter {
 
     private static final String DATABASE_NAME = "Debt";
     private static final String SQLITE_TABLE = "Debts";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     private final Context mCtx;
 
@@ -32,7 +34,8 @@ public class DebtsDbAdapter {
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_NAME + " TEXT,"
             + KEY_PH_NO + " TEXT,"
-            + KEY_DEBT + " TEXT" + ")";
+            + KEY_DEBT + " TEXT,"
+            + KEY_CURRENCY + " TEXT" + ")";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -72,19 +75,19 @@ public class DebtsDbAdapter {
         }
     }
 
-    public long createCountry(String name, String number,
-                              String debt) {
+    public void createCountry(Debt debt) {
 
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_NAME, name);
-        initialValues.put(KEY_PH_NO, number);
-        initialValues.put(KEY_DEBT, debt);
+        initialValues.put(KEY_NAME, debt.getName());
+        initialValues.put(KEY_PH_NO, debt.getNumber());
+        initialValues.put(KEY_DEBT, debt.getMoney());
+        initialValues.put(KEY_CURRENCY, debt.getCurrency());
 
 
-        return mDb.insert(SQLITE_TABLE, null, initialValues);
+        mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
-    public boolean deleteAllCountries() {
+    public boolean clearDB() {
 
         int doneDelete = 0;
         doneDelete = mDb.delete(SQLITE_TABLE, null , null);
@@ -93,18 +96,18 @@ public class DebtsDbAdapter {
 
     }
 
-    public Cursor fetchDebtByName(String inputText) throws SQLException {
+    public Cursor fetchDebtByNumber(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = null;
         if (inputText == null  ||  inputText.length () == 0)  {
             mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ID,
-                            KEY_NAME, KEY_PH_NO, KEY_DEBT},
+                            KEY_NAME, KEY_PH_NO, KEY_DEBT,KEY_CURRENCY},
                     null, null, null, null, null);
 
         }
         else {
             mCursor = mDb.query(true, SQLITE_TABLE, new String[] {KEY_ID,
-                            KEY_NAME, KEY_PH_NO, KEY_DEBT},
+                            KEY_NAME, KEY_PH_NO, KEY_DEBT, KEY_CURRENCY},
                     KEY_NAME + " like '%" + inputText + "%'", null,
                     null, null, null, null);
         }
@@ -118,7 +121,7 @@ public class DebtsDbAdapter {
     public Cursor fetchAllDebts() {
 
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ID,
-                        KEY_NAME, KEY_PH_NO, KEY_DEBT},
+                        KEY_NAME, KEY_PH_NO, KEY_DEBT, KEY_CURRENCY},
                 null, null, null, null, null);
 
         if (mCursor != null) {
@@ -128,8 +131,8 @@ public class DebtsDbAdapter {
     }
 
     public void insertSomeCountries() {
-
-        createCountry("Andrew","(098) 650-57-20","1500");
+        Debt debt = new Debt("Helen","(066)141-47-26","100","₴ Hryvnia");
+        createCountry(debt);
 
 
     }

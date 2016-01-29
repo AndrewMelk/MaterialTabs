@@ -12,6 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
+
+
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 import info.androidhive.materialtabs.Constants;
 import info.androidhive.materialtabs.DatabaseHandler;
 import info.androidhive.materialtabs.Debt;
@@ -27,7 +32,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
                           implements OnContactSelectedListener {
- private DebtsDbAdapter debtsDbAdapter;
+
+
+private Cursor cursor;
 
 //    public static final String SELECTED_CONTACT_ID 	= "contact_id";
 //    public static final String KEY_PHONE_NUMBER 	= "phone_number";
@@ -37,15 +44,22 @@ public class MainActivity extends AppCompatActivity
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private int[] tabIcons = {
-            R.drawable.ic_tab_favourite,
+            R.drawable.ic_tab_contacts,
             R.drawable.ic_tab_call,
-            R.drawable.ic_tab_contacts
+            R.drawable.ic_tab_favourite
     };
-Cursor c1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_icon_text_tabs);
+
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
+
+//        ParseObject testObject = new ParseObject("TestObject");
+//        testObject.put("foo", "bar");
+//        testObject.saveInBackground();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,6 +71,14 @@ Cursor c1;
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        viewPager.setCurrentItem(1);
+
     }
 
     private void setupTabIcons() {
@@ -82,6 +104,10 @@ Cursor c1;
 
     @Override
     public void onContactNumberSelected(String contactNumber, String contactName) {
+
+
+
+
         Toast.makeText(this, contactNumber + " " + contactName, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DebtActivity.class);
         Bundle bundle= new Bundle();
@@ -135,15 +161,14 @@ Cursor c1;
 
                         Debt recieveDebt = data.getExtras().getParcelable(Constants.NEW_DEBT);
                         Log.d("Get DEBT in MAin", recieveDebt.toString());
-//                        debtsDbAdapter.createCountry(recieveDebt.getName(), recieveDebt.getNumber(), recieveDebt.getMoney());
+                        DebtsDbAdapter db = new DebtsDbAdapter(this);
 
-//                        DatabaseHandler db = new DatabaseHandler(this);
-//                        Log.d("myLogs", "Добавляем в базу");
-//                        db.addDebt(recieveDebt);
-//                        Log.d("DB LOGS", debtsDbAdapter.fetchAllDebts().toString());
+//                        if(db.fetchDebtByNumber(recieveDebt.getNumber()).){
 //
-
-
+//                        }
+                        db.open();
+                        db.createCountry(recieveDebt);
+                        db.close();
 
                         viewPager.setCurrentItem(1);
 
