@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.parse.ParseObject;
+
 import info.androidhive.materialtabs.DatabaseHandler;
 import info.androidhive.materialtabs.DebtsDbAdapter;
 import info.androidhive.materialtabs.IndexedListAdapter;
@@ -20,7 +22,7 @@ public class TwoFragment extends ListFragment {
 
     ListView mList;
     private LayoutInflater mLayoutInflater;
-
+    private ParseObject parseObject;
 //    DatabaseHandler sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
@@ -113,6 +115,10 @@ public class TwoFragment extends ListFragment {
         setListAdapter(dataAdapter);
     }
 
+    public void fetchMyDebtsPO(){
+
+
+    }
 
 
 

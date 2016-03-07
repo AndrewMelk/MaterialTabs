@@ -1,5 +1,6 @@
 package info.androidhive.materialtabs.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity
                           implements OnContactSelectedListener {
 
 
-private Cursor cursor;
+    private Cursor cursor;
 
 //    public static final String SELECTED_CONTACT_ID 	= "contact_id";
 //    public static final String KEY_PHONE_NUMBER 	= "phone_number";
@@ -57,6 +59,7 @@ private Cursor cursor;
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
+
 
 
 //        ParseObject testObject = new ParseObject("TestObject");
@@ -148,6 +151,7 @@ private Cursor cursor;
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // запишем в лог значения requestCode и resultCode
@@ -164,7 +168,10 @@ private Cursor cursor;
                         Debt recieveDebt = data.getExtras().getParcelable(Constants.NEW_DEBT);
                         Log.d("Get DEBT in MAin", recieveDebt.toString());
                         DebtsDbAdapter db = new DebtsDbAdapter(this);
+                        TelephonyManager telemanger = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                        String getSimSerialNumber = telemanger.getSimSerialNumber();
                         parseObject = new ParseObject("Debt");
+                        parseObject.put("UserPhoneNumber",getSimSerialNumber);
                         parseObject.put("Name",recieveDebt.getName());
                         parseObject.put("Number",recieveDebt.getNumber());
                         parseObject.put("Money",recieveDebt.getMoney());
