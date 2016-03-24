@@ -14,6 +14,19 @@ public class IndexedListAdapter extends SimpleCursorAdapter implements SectionIn
 
     AlphabetIndexer alphaIndexer;
 
+    @Override
+    public int getViewTypeCount() {
+        // menu type count
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        // current menu type
+        return position;
+    }
+
+
     public IndexedListAdapter(Context context, int layout, Cursor c,
                               String[] from, int[] to) {
         super(context, layout, c, from, to, 0);

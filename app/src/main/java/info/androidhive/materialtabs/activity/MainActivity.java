@@ -3,6 +3,8 @@ package info.androidhive.materialtabs.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,9 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.animation.BounceInterpolator;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -42,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 //    public static final String KEY_PHONE_NUMBER 	= "phone_number";
 //    public static final String KEY_CONTACT_NAME 	= "contact_name";
     private ParseObject parseObject;
-
+    private SwipeMenuListView listView;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -59,6 +67,8 @@ public class MainActivity extends AppCompatActivity
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
+
+
 
 
 

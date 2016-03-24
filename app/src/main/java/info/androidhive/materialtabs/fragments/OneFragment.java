@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
 import info.androidhive.materialtabs.IndexedListAdapter;
 import info.androidhive.materialtabs.R;
 
@@ -50,6 +52,7 @@ private static final String[] CONTACTS_SUMMARY_PROJECTION = new String[] {
     @Override
 public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.contact_list_fragment, container, false);
+
         }
 
 @Override

@@ -7,11 +7,11 @@ android:orientation="vertical"
 
     >
 
-<ListView
+<com.baoyz.swipemenulistview.SwipeMenuListView
     android:id="@android:id/list"
     android:background="#30ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    android:fastScrollEnabled="true"></ListView>
+    android:fastScrollEnabled="true"/>
 </LinearLayout>
